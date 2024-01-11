@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(pagingSource:MainPagingSource): ViewModel() {
     val pageFlow = Pager(
-        PagingConfig(pageSize = 20)
+        PagingConfig(pageSize = 20, enablePlaceholders = false),
     ) {
         pagingSource
     }.flow.cachedIn(viewModelScope)

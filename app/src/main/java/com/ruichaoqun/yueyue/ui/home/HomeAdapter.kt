@@ -3,6 +3,7 @@ package com.ruichaoqun.yueyue.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -14,7 +15,7 @@ import javax.inject.Inject
 class HomeAdapter @Inject constructor():
     PagingDataAdapter<HomePageItemBean, HomeAdapter.HomeViewHolder>(HomeComparator) {
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-
+        holder.mTvId.text =  getItem(position)?.id?.toString()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
@@ -22,7 +23,9 @@ class HomeAdapter @Inject constructor():
         return HomeViewHolder(view)
     }
 
-    inner class HomeViewHolder(itemView: View) : ViewHolder(itemView)
+    inner class HomeViewHolder(itemView: View) : ViewHolder(itemView) {
+        val mTvId :TextView = itemView.findViewById(R.id.tv_id)
+    }
 }
 
 object HomeComparator : DiffUtil.ItemCallback<HomePageItemBean>() {

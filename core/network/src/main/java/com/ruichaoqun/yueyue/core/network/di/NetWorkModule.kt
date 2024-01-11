@@ -27,7 +27,7 @@ object NetWorkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(builder: Retrofit.Builder, okHttpClient: OkHttpClient?): Retrofit? {
+    fun provideRetrofit(builder: Retrofit.Builder, okHttpClient: OkHttpClient): Retrofit {
         return builder.baseUrl("https://www.wanandroid.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)

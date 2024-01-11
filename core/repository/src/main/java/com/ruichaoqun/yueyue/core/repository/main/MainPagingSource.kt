@@ -11,8 +11,7 @@ class MainPagingSource @Inject constructor(private val remoteDataSource: RemoteD
 
     override fun getRefreshKey(state: PagingState<Int, HomePageItemBean>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
-            val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+            state.closestPageToPosition(anchorPosition)?.prevKey
         }
     }
 
