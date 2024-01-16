@@ -11,8 +11,6 @@ data class HomePageBean(
 )
 
 data class HomePageItemBean(
-    var apkLink:String?,
-    var audit:Int?,
     var author:String?,
     var chapterId:Int?,
     var chapterName:String?,
