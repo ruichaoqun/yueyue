@@ -13,14 +13,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(pagingSource:MainPagingSource): ViewModel() {
-    val pageFlow = Pager(
-        PagingConfig(pageSize = 20, enablePlaceholders = false),
-    ) {
-        pagingSource
-    }.flow.cachedIn(viewModelScope)
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
+    val pageFlow = Pager(
+        PagingConfig(pageSize = 20, enablePlaceholders = false), pagingSourceFactory = { pagingSource }
+    ) .flow.cachedIn(viewModelScope)
+
 }

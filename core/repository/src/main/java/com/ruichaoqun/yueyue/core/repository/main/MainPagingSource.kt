@@ -7,7 +7,8 @@ import com.ruichaoqun.yueyue.core.network.RemoteDataSource
 import javax.inject.Inject
 
 
-class MainPagingSource @Inject constructor(private val remoteDataSource: RemoteDataSource):PagingSource<Int, HomePageItemBean>() {
+class MainPagingSource @Inject constructor(private val remoteDataSource: RemoteDataSource) :
+    PagingSource<Int, HomePageItemBean>() {
 
     override fun getRefreshKey(state: PagingState<Int, HomePageItemBean>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -17,12 +18,13 @@ class MainPagingSource @Inject constructor(private val remoteDataSource: RemoteD
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HomePageItemBean> {
         return try {
-            val nextPageNumber = params.key ?: 0
-            val data = remoteDataSource.getHomeList(nextPageNumber)
+            val data = params.key?.let {
+                remoteDataSource.getHomeList(it).data.datas
+            } ?: remoteDataSource.getTopicList().data.onEach { it.isTopic = true }
             LoadResult.Page(
-                data = data.data.datas,
+                data = data,
                 prevKey = null,
-                nextKey = data.data.curPage
+                nextKey = params.key?.let { it + 1 } ?: 0
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
