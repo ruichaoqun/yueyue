@@ -7,7 +7,7 @@ data class HomePageBean(
     var pageCount:Int,
     var size:Int,
     var total:Int,
-    var datas:List<HomePageItemBean>
+    var datas:MutableList<HomePageItemBean>?
 )
 
 data class HomePageItemBean(
