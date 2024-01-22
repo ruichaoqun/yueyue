@@ -7,7 +7,7 @@ import com.ruichaoqun.yueyue.core.network.NetWorkResponse
 import kotlinx.coroutines.flow.Flow
 
 interface MainRepository {
-    fun getBanner() : Flow<List<BannerItemBean>>
+    fun getBanner() : Flow<Result<List<BannerItemBean>>>
 
     suspend fun getHomeList(page: Int): NetWorkResponse<HomePageBean>
 

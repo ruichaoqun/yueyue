@@ -14,6 +14,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(val mainRepository : MainRepository): ViewModel() {
+    private var _HomeUiState
+
+
     val pageFlow = Pager(
         config = PagingConfig(pageSize = 20, enablePlaceholders = false),
         pagingSourceFactory = { MainPagingSource(mainRepository) }
@@ -29,6 +32,12 @@ class HomeViewModel @Inject constructor(val mainRepository : MainRepository): Vi
         }
     }
 
+}
+
+sealed interface HomeUiState{
+    object RefreshState:HomeUiState
+
+    data class
 }
 
 sealed interface MainIntent{

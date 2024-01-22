@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import java.util.Objects
 import javax.inject.Inject
 import com.ruichaoqun.yueyue.core.common.util.dpToPx
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
@@ -63,7 +64,7 @@ class HomeFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewMode.pageFlow.collectLatest {
+            viewMode.pageFlow.collect {
                 homeAdapter.submitData(it)
             }
         }
