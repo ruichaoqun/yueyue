@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import java.util.Objects
 import javax.inject.Inject
 import com.ruichaoqun.yueyue.core.common.util.dpToPx
+import com.youth.banner.adapter.BannerAdapter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
@@ -31,6 +32,9 @@ class HomeFragment : Fragment() {
 
     @Inject
     lateinit var homeAdapter: HomeAdapter
+
+    @Inject
+    lateinit var bannerAdapter:HomeBannerAdapter
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -47,6 +51,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.banner.setAdapter(bannerAdapter)
         binding.recyclerView.run {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = homeAdapter.withLoadStateFooter(CommonFootAdapter(homeAdapter::retry))
@@ -67,25 +72,30 @@ class HomeFragment : Fragment() {
             viewMode.pageFlow.collect {
                 homeAdapter.submitData(it)
             }
-        }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            homeAdapter.loadStateFlow.distinctUntilChanged().collect {   loadState ->
-                Log.e("AAAAA",loadState.toString())
-                binding.swipeRefresh.setOnRefreshing(loadState.refresh is LoadState.Loading)
+            viewMode.homeUiState.collect{
+                when(it) {
+                    is HomeBannerUiState.Success -> {
+                        bannerAdapter.setDatas(it.banners)
+                    }
+                    is HomeBannerUiState.Error -> {
 
+                    }
+                    is HomeBannerUiState.Loading -> {
+
+                    }
+                }
             }
         }
+
         viewLifecycleOwner.lifecycleScope.launch {
+            homeAdapter.loadStateFlow.collect {
+                binding.swipeRefresh.setOnRefreshing(it.refresh is LoadState.Loading)
+            }
+
             homeAdapter.loadStateFlow
-                // Use a state-machine to track LoadStates such that we only transition to
-                // NotLoading from a RemoteMediator load if it was also presented to UI.
-                // Only emit when REFRESH changes, as we only want to react on loads replacing the
-                // list.
                 .distinctUntilChangedBy { it.refresh }
-                // Only react to cases where REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
-                // Scroll to top is synchronous with UI updates, even if remote load was triggered.
                 .collect { binding.recyclerView.scrollToPosition(0) }
         }
     }
