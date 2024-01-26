@@ -1,13 +1,13 @@
 package com.ruichaoqun.yueyue.core.model
 
-data class HomePageBean(
+data class PageBean<T>(
     var curPage:Int,
     var offset:Int,
     var over:Boolean,
     var pageCount:Int,
     var size:Int,
     var total:Int,
-    var datas:MutableList<HomePageItemBean>?
+    var datas:MutableList<T>
 )
 
 data class HomePageItemBean(

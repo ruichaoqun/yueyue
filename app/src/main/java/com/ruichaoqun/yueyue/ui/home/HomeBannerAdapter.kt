@@ -1,5 +1,6 @@
 package com.ruichaoqun.yueyue.ui.home
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -15,8 +16,8 @@ class HomeBannerAdapter @Inject constructor(): BannerAdapter<BannerItemBean, Hom
 
     class ViewHolder(view:View):RecyclerView.ViewHolder(view)
 
-    override fun onCreateHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val imageView = ImageView(parent!!.context)
+    override fun onCreateHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val imageView = ImageView(parent.context)
         imageView.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT

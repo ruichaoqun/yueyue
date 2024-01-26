@@ -1,7 +1,6 @@
 package com.ruichaoqun.yueyue.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.ruichaoqun.yueyue.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.Objects
 import javax.inject.Inject
 import com.ruichaoqun.yueyue.core.common.util.dpToPx
-import com.youth.banner.adapter.BannerAdapter
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 
@@ -69,10 +63,6 @@ class HomeFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewMode.pageFlow.collect {
-                homeAdapter.submitData(it)
-            }
-
             viewMode.homeUiState.collect{
                 when(it) {
                     is HomeBannerUiState.Success -> {
@@ -85,6 +75,12 @@ class HomeFragment : Fragment() {
 
                     }
                 }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewMode.pageFlow.collect{
+                homeAdapter.submitData(it)
             }
         }
 
