@@ -3,8 +3,8 @@ package com.ruichaoqun.yueyue.core.model
 data class SystemDataBean(
     var id:Int,
     var name:String,
-    var children:List<SystemDataChildBean>
-) {
+    var children:MutableList<SystemDataChildBean>
+):SimpleSelect() {
     override fun toString(): String {
         return name
     }
@@ -13,7 +13,7 @@ data class SystemDataBean(
 data class SystemDataChildBean(
     var id:Int,
     var name:String
-) {
+):SimpleSelect() {
     override fun toString(): String {
         return name
     }

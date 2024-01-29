@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.ruichaoqun.yueyue.R
 import com.ruichaoqun.yueyue.core.common.util.dpToPx
+import com.ruichaoqun.yueyue.core.model.SimpleSelect
 
-class DropBoxPopupWindow<T>(context: Context,private val mData: MutableList<T>,val onItemCLick:(position:Int) -> Unit) : PopupWindow(context) {
+class DropBoxPopupWindow<T:SimpleSelect>(context: Context,val mData: List<T>,val onItemCLick:(position:Int) -> Unit) : PopupWindow(context) {
     private lateinit var recyclerView:RecyclerView
     init {
         initView(context)
@@ -31,29 +32,33 @@ class DropBoxPopupWindow<T>(context: Context,private val mData: MutableList<T>,v
                     dividerThickness = context.dpToPx(0.8f)
                 },
             )
-            adapter = SimpleAdapter(mData,onItemCLick)
+            adapter = SimpleAdapter<T>(onItemCLick).apply {
+                setData(mData)
+            }
         }
         contentView = view
     }
 
     public fun refreshData(data:MutableList<T>) {
+        data.forEachIndexed { index, t ->
+            t.isSelect = index == 0
+        }
         (recyclerView.adapter as SimpleAdapter<T>).setData(data)
     }
 
-    class SimpleAdapter<T>(val mData:MutableList<T>,val onItemCLick:(position:Int) -> Unit) : RecyclerView.Adapter<SimpleAdapter.ViewHolder>() {
-        private var selectPosition = 0
+    class SimpleAdapter<T:SimpleSelect>(val onItemCLick:(position:Int) -> Unit) : RecyclerView.Adapter<SimpleAdapter.ViewHolder>() {
+        private val mData:MutableList<T> = mutableListOf()
         @SuppressLint("NotifyDataSetChanged")
         fun setData(data:List<T>) {
             mData.clear()
             mData.addAll(data)
-            selectPosition = 0
             notifyDataSetChanged()
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val textView = TextView(parent.context).apply {
                 layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,context.dpToPx(40f))
                 gravity = Gravity.CENTER_VERTICAL
-                setTextColor(context.getColor(R.color.color_333))
+                setTextColor(context.getColor(R.color.color_item_select))
                 setPadding(context.dpToPx(16f),0,0,0)
             }
             return ViewHolder(textView)
@@ -65,12 +70,19 @@ class DropBoxPopupWindow<T>(context: Context,private val mData: MutableList<T>,v
             val bean = mData[position]
             (holder.itemView as TextView).apply {
                 text = bean.toString()
-                isSelected = selectPosition == position
+                isSelected = bean.isSelect
                 setOnClickListener {
-                    selectPosition = position
+                    setSelect(position)
                     onItemCLick(position)
                 }
             }
+        }
+
+        private fun setSelect(position: Int) {
+            mData.forEachIndexed { index, t ->
+                t.isSelect = index == position
+            }
+            notifyDataSetChanged()
         }
 
         class ViewHolder(view:View):RecyclerView.ViewHolder(view)

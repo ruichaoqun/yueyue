@@ -30,10 +30,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
 @HiltViewModel
-class DashboardViewModel constructor(val systemDataRepository: SystemDataRepository): ViewModel() {
-    private var cid:Int = 0
+class DashboardViewModel @Inject constructor(val systemDataRepository: SystemDataRepository): ViewModel() {
+    var cid:Int = 0
 
     val flow :Flow<String> = flowOf()
 
@@ -61,6 +62,8 @@ class DashboardViewModel constructor(val systemDataRepository: SystemDataReposit
                     is Result.Success -> {
                         val firstTag = it.data[0]
                         val secondTag = firstTag.children[0]
+                        firstTag.isSelect = true
+                        secondTag.isSelect = true
                         pagingDataSource = SystemDataPagingSource(systemDataRepository,secondTag.id)
                         SystemTagUiState.Success(it.data)
                     }
@@ -80,7 +83,7 @@ sealed interface SystemTagUiState {
     object Loading : SystemTagUiState
     object Error : SystemTagUiState
 
-    data class Success(val systemDatas: MutableList<SystemDataBean>): SystemTagUiState
+    data class Success(val systemDatas: List<SystemDataBean>): SystemTagUiState
 }
 
 sealed interface SystemListUiState{

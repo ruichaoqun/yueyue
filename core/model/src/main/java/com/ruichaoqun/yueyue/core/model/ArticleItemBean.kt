@@ -7,7 +7,7 @@ data class ArticleItemBean(
     var superChapterName:String,
     var collect:Boolean,
     var link:String,
-    var publishTime:String,
+    var publishTime:Long,
     var shareDate:String,
     var author:String,
     var shareUser:String

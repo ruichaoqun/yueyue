@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
                 MaterialDividerItemDecoration(context, RecyclerView.VERTICAL).apply {
                     isLastItemDecorated = false
                     dividerThickness = dpToPx(0.8f)
-                },
+                }
             )
         }
 
