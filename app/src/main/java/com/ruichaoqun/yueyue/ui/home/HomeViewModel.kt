@@ -36,7 +36,6 @@ class HomeViewModel @Inject constructor(val mainRepository: MainRepository) : Vi
     ).flow.cachedIn(viewModelScope)
 
     private fun homeBannerUiState(repository: MainRepository) : Flow<HomeBannerUiState> {
-        Log.e("AAAAA","homeBannerUiState")
         return repository.getBanner().asResult()
             .map { result ->
                 when(result) {

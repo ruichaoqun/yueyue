@@ -1,5 +1,6 @@
 package com.ruichaoqun.yueyue.widget.popup
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -13,18 +14,15 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.ruichaoqun.yueyue.R
 import com.ruichaoqun.yueyue.core.common.util.dpToPx
 
-class DropBoxPopupWindow<T> : PopupWindow {
-    private val mData:List<T>
-
-    constructor(context: Context,data: List<T>) : super(context) {
-        mData = data
+class DropBoxPopupWindow<T>(context: Context,private val mData: MutableList<T>,val onItemCLick:(position:Int) -> Unit) : PopupWindow(context) {
+    private lateinit var recyclerView:RecyclerView
+    init {
         initView(context)
-
     }
 
     private fun initView(context:Context) {
         val view = LayoutInflater.from(context).inflate(R.layout.layout_recycler_view,null)
-        val recyclerView:RecyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
@@ -33,15 +31,25 @@ class DropBoxPopupWindow<T> : PopupWindow {
                     dividerThickness = context.dpToPx(0.8f)
                 },
             )
-            adapter =
+            adapter = SimpleAdapter(mData,onItemCLick)
         }
         contentView = view
     }
 
-    class SimpleAdapter<T> : RecyclerView.Adapter<SimpleAdapter.ViewHolder>() {
-        var data:List<>
+    public fun refreshData(data:MutableList<T>) {
+        (recyclerView.adapter as SimpleAdapter<T>).setData(data)
+    }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleAdapter.ViewHolder {
+    class SimpleAdapter<T>(val mData:MutableList<T>,val onItemCLick:(position:Int) -> Unit) : RecyclerView.Adapter<SimpleAdapter.ViewHolder>() {
+        private var selectPosition = 0
+        @SuppressLint("NotifyDataSetChanged")
+        fun setData(data:List<T>) {
+            mData.clear()
+            mData.addAll(data)
+            selectPosition = 0
+            notifyDataSetChanged()
+        }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val textView = TextView(parent.context).apply {
                 layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,context.dpToPx(40f))
                 gravity = Gravity.CENTER_VERTICAL
@@ -51,12 +59,18 @@ class DropBoxPopupWindow<T> : PopupWindow {
             return ViewHolder(textView)
         }
 
-        override fun getItemCount(): Int {
-            TODO("Not yet implemented")
-        }
+        override fun getItemCount(): Int = mData.size
 
-        override fun onBindViewHolder(holder: SimpleAdapter.ViewHolder, position: Int) {
-            TODO("Not yet implemented")
+        override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
+            val bean = mData[position]
+            (holder.itemView as TextView).apply {
+                text = bean.toString()
+                isSelected = selectPosition == position
+                setOnClickListener {
+                    selectPosition = position
+                    onItemCLick(position)
+                }
+            }
         }
 
         class ViewHolder(view:View):RecyclerView.ViewHolder(view)

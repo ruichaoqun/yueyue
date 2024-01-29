@@ -8,7 +8,7 @@ import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 
-class MainPagingSource @Inject constructor(private val mainRepository: MainRepository) :
+class MainPagingSource constructor(private val mainRepository: MainRepository) :
     PagingSource<Int, HomePageItemBean>() {
 
     override fun getRefreshKey(state: PagingState<Int, HomePageItemBean>): Int? {
@@ -24,11 +24,10 @@ class MainPagingSource @Inject constructor(private val mainRepository: MainRepos
             if (data.errorCode != 0) {
                 return LoadResult.Error(Throwable("网络错误"))
             }
-            delay(3000)
             LoadResult.Page(
-                data = data.data.datas?: mutableListOf(),
+                data = data.data.datas,
                 prevKey = null,
-                nextKey = if (page == 4) null else page + 1
+                nextKey =  page.plus(1)
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
