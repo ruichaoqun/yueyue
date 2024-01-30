@@ -1,6 +1,7 @@
 package com.ruichaoqun.yueyue.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,19 +17,20 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.ruichaoqun.yueyue.core.common.util.dpToPx
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    val viewMode:HomeViewModel by viewModels()
+    val viewMode: HomeViewModel by viewModels()
 
     @Inject
     lateinit var homeAdapter: HomeAdapter
 
     @Inject
-    lateinit var bannerAdapter:HomeBannerAdapter
+    lateinit var bannerAdapter: HomeBannerAdapter
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -58,19 +60,24 @@ class HomeFragment : Fragment() {
             )
         }
 
-        binding.swipeRefresh.setOnRefreshListener {
-            homeAdapter.refresh()
+        binding.swipeRefresh.apply {
+            autoRefreshAnimationOnly()
+//            setOnRefreshListener {
+//                homeAdapter.refresh()
+//            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewMode.homeUiState.collect{
-                when(it) {
+            viewMode.homeUiState.collect {
+                when (it) {
                     is HomeBannerUiState.Success -> {
                         bannerAdapter.setDatas(it.banners)
                     }
+
                     is HomeBannerUiState.Error -> {
 
                     }
+
                     is HomeBannerUiState.Loading -> {
 
                     }
@@ -79,15 +86,20 @@ class HomeFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewMode.pageFlow.collect{
+            viewMode.pageFlow.collectLatest {
                 homeAdapter.submitData(it)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            homeAdapter.loadStateFlow.collect {
-                binding.swipeRefresh.setOnRefreshing(it.refresh is LoadState.Loading)
-            }
+            homeAdapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .collect {
+                    Log.e("AAAAA", it.toString())
+                    if (it.refresh !is LoadState.Loading) {
+                        binding.swipeRefresh.finishRefresh()
+                    }
+                }
 
             homeAdapter.loadStateFlow
                 .distinctUntilChangedBy { it.refresh }

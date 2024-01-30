@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(val mainRepository: MainRepository) : Vi
 
 
     val pageFlow = Pager(
-        config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+        config = PagingConfig(pageSize = 20, enablePlaceholders = false, initialLoadSize = 0),
         pagingSourceFactory = { MainPagingSource(mainRepository) }
     ).flow.cachedIn(viewModelScope)
 

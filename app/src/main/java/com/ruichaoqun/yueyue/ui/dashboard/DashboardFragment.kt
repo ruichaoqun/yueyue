@@ -20,11 +20,12 @@ import com.ruichaoqun.yueyue.databinding.FragmentDashboardBinding
 import com.ruichaoqun.yueyue.ui.home.CommonFootAdapter
 import com.ruichaoqun.yueyue.ui.home.setOnRefreshing
 import com.ruichaoqun.yueyue.widget.popup.DropBoxPopupWindow
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
+@AndroidEntryPoint
 class DashboardFragment : Fragment() {
 
     val viewModel: DashboardViewModel by viewModels()
