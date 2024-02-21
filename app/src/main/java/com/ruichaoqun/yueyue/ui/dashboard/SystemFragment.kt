@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,12 +20,14 @@ import com.ruichaoqun.yueyue.ui.home.CommonFootAdapter
 import com.ruichaoqun.yueyue.ui.home.setOnRefreshing
 import com.ruichaoqun.yueyue.widget.popup.DropBoxPopupWindow
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @AndroidEntryPoint
-class DashboardFragment : Fragment() {
+class SystemFragment : Fragment() {
 
     val viewModel: DashboardViewModel by viewModels()
 
@@ -45,8 +46,7 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,15 +63,15 @@ class DashboardFragment : Fragment() {
                 systemDataAdapter.withLoadStateFooter(CommonFootAdapter(systemDataAdapter::retry))
         }
 
-        binding.smartRefresh.apply {
-            systemDataAdapter.refresh()
-        }
-
         binding.llLevelOne.setOnClickListener {
             firstTagPopup.showAsDropDown(binding.llLevelOne)
         }
         binding.llLevelTwo.setOnClickListener {
             secondTagPopup.showAsDropDown(binding.llLevelTwo)
+        }
+
+        binding.smartRefresh.setOnRefreshListener {
+            refreshData()
         }
 
         lifecycleScope.launch {
@@ -81,18 +81,25 @@ class DashboardFragment : Fragment() {
                 binding.groupData.isVisible = it is SystemTagUiState.Success
                 if (it is SystemTagUiState.Success) {
                     val firstTag = it.systemDatas[0]
+                    binding.tvLevelOne.text = firstTag.name
+                    binding.tvLevelTwo.text = firstTag.children[0].name
                     firstTagPopup =
                         DropBoxPopupWindow(requireContext(), it.systemDatas) { position ->
                             val data = firstTagPopup.mData[position]
-                            secondTagPopup.refreshData(data.children)
+                            binding.tvLevelOne.text = data.name
+                            binding.tvLevelTwo.text = data.children[0].name
                             viewModel.cid = data.children[0].id
-                            systemDataAdapter.refresh()
+                            refreshData()
+                            secondTagPopup.apply {
+                                refreshData(data.children)
+                                showAsDropDown(binding.llLevelTwo)
+                            }
                         }
                     secondTagPopup =
                         DropBoxPopupWindow(requireContext(), firstTag.children) { position ->
                             val data = secondTagPopup.mData[position]
                             viewModel.cid = data.id
-                            systemDataAdapter.refresh()
+                            refreshData()
                         }
                     getArticles()
                 }
@@ -101,7 +108,9 @@ class DashboardFragment : Fragment() {
 
         lifecycleScope.launch {
             systemDataAdapter.loadStateFlow.collect {
-                binding.smartRefresh.setOnRefreshing(it.refresh is LoadState.Loading)
+                if (it.refresh !is LoadState.Loading) {
+                    binding.smartRefresh.finishRefresh()
+                }
             }
 
             systemDataAdapter.loadStateFlow
@@ -111,9 +120,15 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    private fun refreshData() {
+        lifecycleScope.launch {
+            systemDataAdapter.refresh()
+        }
+    }
+
     private fun getArticles() {
         lifecycleScope.launch {
-            viewModel.page.collect{
+            viewModel.page.collectLatest {
                 systemDataAdapter.submitData(it)
             }
         }

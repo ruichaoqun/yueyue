@@ -36,7 +36,6 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(val systemDataRepository: SystemDataRepository): ViewModel() {
     var cid:Int = 0
 
-    val flow :Flow<String> = flowOf()
 
     val systemTagUiState : StateFlow<SystemTagUiState> = systemTagUiState()
         .stateIn(
@@ -45,11 +44,9 @@ class DashboardViewModel @Inject constructor(val systemDataRepository: SystemDat
             initialValue = SystemTagUiState.Loading
         )
 
-    private lateinit var pagingDataSource :SystemDataPagingSource
-
     val page = Pager(
-        config = PagingConfig(pageSize = 20, enablePlaceholders = false),
-        pagingSourceFactory = { pagingDataSource }
+        config = PagingConfig(pageSize = 20),
+        pagingSourceFactory = { SystemDataPagingSource(systemDataRepository,cid) }
     ).flow.cachedIn(viewModelScope)
 
 
@@ -64,14 +61,13 @@ class DashboardViewModel @Inject constructor(val systemDataRepository: SystemDat
                         val secondTag = firstTag.children[0]
                         firstTag.isSelect = true
                         secondTag.isSelect = true
-                        pagingDataSource = SystemDataPagingSource(systemDataRepository,secondTag.id)
+                        cid = secondTag.id
                         SystemTagUiState.Success(it.data)
                     }
                 }
             }
 
     fun selectFirstTag(tag:SystemDataBean) {
-        cid
     }
 
     fun selectSecondTag(tag:SystemDataChildBean) {

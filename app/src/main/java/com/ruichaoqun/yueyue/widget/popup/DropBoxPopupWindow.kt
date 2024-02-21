@@ -2,10 +2,13 @@ package com.ruichaoqun.yueyue.widget.popup
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,15 +31,22 @@ class DropBoxPopupWindow<T:SimpleSelect>(context: Context,val mData: List<T>,val
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(
                 MaterialDividerItemDecoration(context, RecyclerView.VERTICAL).apply {
-                    isLastItemDecorated = false
+                    isLastItemDecorated = true
                     dividerThickness = context.dpToPx(0.8f)
                 },
             )
-            adapter = SimpleAdapter<T>(onItemCLick).apply {
+            adapter = SimpleAdapter<T>{position ->
+                onItemCLick(position)
+                dismiss()
+            }.apply {
                 setData(mData)
             }
         }
         contentView = view
+        width = WindowManager.LayoutParams.MATCH_PARENT
+        setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        isFocusable = true
+        isOutsideTouchable = true
     }
 
     public fun refreshData(data:MutableList<T>) {
@@ -57,7 +67,7 @@ class DropBoxPopupWindow<T:SimpleSelect>(context: Context,val mData: List<T>,val
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val textView = TextView(parent.context).apply {
                 layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,context.dpToPx(40f))
-                gravity = Gravity.CENTER_VERTICAL
+                gravity = Gravity.CENTER
                 setTextColor(context.getColor(R.color.color_item_select))
                 setPadding(context.dpToPx(16f),0,0,0)
             }
@@ -78,6 +88,7 @@ class DropBoxPopupWindow<T:SimpleSelect>(context: Context,val mData: List<T>,val
             }
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         private fun setSelect(position: Int) {
             mData.forEachIndexed { index, t ->
                 t.isSelect = index == position
