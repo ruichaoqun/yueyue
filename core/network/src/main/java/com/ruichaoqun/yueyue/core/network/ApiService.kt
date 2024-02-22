@@ -51,17 +51,10 @@ interface ApiService {
     suspend fun getNavigationList(): NetWorkResponse<List<NavigationBean>>
 
     /**
-     * 项目分类
+     * 项目
      */
-    @GET(value = "project/tree/json")
-    suspend fun getProjectItemList():NetWorkResponse<List<ProjectItemBean>>
-
-    /**
-     * 项目分类下的列表数据
-     */
-    @GET(value = "project/list/{page}/json")
-    suspend fun getProjectList(@Path("page") page: Int,@Query("cid") cid:Int): NetWorkResponse<PageBean<ProjectBean>>
-
+    @GET(value = "article/listproject/{page}/json")
+    suspend fun getProjectList(@Path("page") page: Int):NetWorkResponse<PageBean<ProjectBean>>
 
     /**
      * 登录

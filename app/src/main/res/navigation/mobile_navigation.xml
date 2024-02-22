@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.ruichaoqun.yueyue.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.ruichaoqun.yueyue.ui.notifications.PublicNoFragment"
+        android:label="@string/title_public_no"
+        tools:layout="@layout/fragment_public_no" />
 </navigation>

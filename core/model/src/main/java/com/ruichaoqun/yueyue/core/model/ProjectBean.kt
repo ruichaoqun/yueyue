@@ -11,5 +11,6 @@ data class ProjectBean(
     var niceShareDate:String,
     var projectLink:String,
     var publishTime:Long,
-    var title:String
+    var title:String,
+    var shareUser:String
 )
