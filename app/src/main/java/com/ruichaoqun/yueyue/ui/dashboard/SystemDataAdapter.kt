@@ -11,6 +11,7 @@ import com.ruichaoqun.yueyue.R
 import com.ruichaoqun.yueyue.core.common.util.formatDate
 import com.ruichaoqun.yueyue.core.model.ArticleItemBean
 import com.ruichaoqun.yueyue.databinding.ItemSystemArticleBinding
+import com.ruichaoqun.yueyue.ui.Web.WebActivity
 import javax.inject.Inject
 
 
@@ -26,6 +27,9 @@ class SystemDataAdapter @Inject constructor():PagingDataAdapter<ArticleItemBean,
             holder.mBinding.tvTitle.text = title
             holder.mBinding.tvTags.text = "$superChapterName/$chapterName"
             holder.mBinding.tvDate.text = publishTime.formatDate()
+            holder.mBinding.root.setOnClickListener {
+                WebActivity.startWebActivity(holder.mBinding.root.context,link)
+            }
         }
     }
 

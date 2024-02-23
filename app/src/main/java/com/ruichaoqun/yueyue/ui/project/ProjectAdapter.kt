@@ -12,6 +12,7 @@ import com.ruichaoqun.yueyue.core.common.util.formatDate
 import com.ruichaoqun.yueyue.core.model.ProjectBean
 import com.ruichaoqun.yueyue.databinding.ItemProjectBinding
 import com.ruichaoqun.yueyue.databinding.ItemSystemArticleBinding
+import com.ruichaoqun.yueyue.ui.Web.WebActivity
 import javax.inject.Inject
 
 class ProjectAdapter @Inject constructor():PagingDataAdapter<ProjectBean,ProjectAdapter.ViewHolder>(SystemDataDiff) {
@@ -29,6 +30,9 @@ class ProjectAdapter @Inject constructor():PagingDataAdapter<ProjectBean,Project
             holder.mBinding.ivLike.load(envelopePic){
                 placeholder(R.mipmap.default_project_img)
                 error(R.mipmap.default_project_img)
+            }
+            holder.mBinding.root.setOnClickListener {
+                WebActivity.startWebActivity(holder.mBinding.root.context,link)
             }
         }
     }

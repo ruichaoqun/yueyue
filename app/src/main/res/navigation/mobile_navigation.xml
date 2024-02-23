@@ -22,4 +22,10 @@
         android:name="com.ruichaoqun.yueyue.ui.notifications.PublicNoFragment"
         android:label="@string/title_public_no"
         tools:layout="@layout/fragment_public_no" />
+
+    <fragment
+        android:id="@+id/navigation_project"
+        android:name="com.ruichaoqun.yueyue.ui.project.ProjectFragment"
+        android:label="@string/title_project"
+        tools:layout="@layout/fragment_project" />
 </navigation>

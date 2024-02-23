@@ -12,6 +12,7 @@ import com.ruichaoqun.yueyue.R
 import com.ruichaoqun.yueyue.core.common.util.formatDate
 import com.ruichaoqun.yueyue.core.model.HomePageItemBean
 import com.ruichaoqun.yueyue.databinding.ItemHomeBinding
+import com.ruichaoqun.yueyue.ui.Web.WebActivity
 import javax.inject.Inject
 
 
@@ -26,6 +27,9 @@ class HomeAdapter @Inject constructor():
                 list.joinToString(separator = "/", transform = { it.name })
             }
             holder.mBinding.tvDate.text = publishTime.formatDate()
+            holder.mBinding.root.setOnClickListener {
+                WebActivity.startWebActivity(holder.mBinding.root.context,link)
+            }
         }
     }
 

@@ -18,7 +18,7 @@ import com.ruichaoqun.yueyue.R
 import com.ruichaoqun.yueyue.core.common.util.dpToPx
 import com.ruichaoqun.yueyue.core.model.SimpleSelect
 
-class DropBoxPopupWindow<T:SimpleSelect>(context: Context,val mData: List<T>,val onItemCLick:(position:Int) -> Unit) : PopupWindow(context) {
+class DropBoxPopupWindow<T:SimpleSelect>(context: Context,var mData: List<T>,val onItemCLick:(position:Int) -> Unit) : PopupWindow(context) {
     private lateinit var recyclerView:RecyclerView
     init {
         initView(context)
@@ -50,6 +50,7 @@ class DropBoxPopupWindow<T:SimpleSelect>(context: Context,val mData: List<T>,val
     }
 
     public fun refreshData(data:MutableList<T>) {
+        mData = data
         data.forEachIndexed { index, t ->
             t.isSelect = index == 0
         }

@@ -1,6 +1,7 @@
 package com.ruichaoqun.yueyue.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SystemFragment : Fragment() {
+    val TAG:String = "SystemFragment"
 
     val viewModel: DashboardViewModel by viewModels()
 
@@ -89,7 +91,7 @@ class SystemFragment : Fragment() {
                             binding.tvLevelOne.text = data.name
                             binding.tvLevelTwo.text = data.children[0].name
                             viewModel.cid = data.children[0].id
-                            refreshData()
+                            binding.smartRefresh.autoRefresh()
                             secondTagPopup.apply {
                                 refreshData(data.children)
                                 showAsDropDown(binding.llLevelTwo)
@@ -98,8 +100,9 @@ class SystemFragment : Fragment() {
                     secondTagPopup =
                         DropBoxPopupWindow(requireContext(), firstTag.children) { position ->
                             val data = secondTagPopup.mData[position]
+                            binding.tvLevelTwo.text = data.name
                             viewModel.cid = data.id
-                            refreshData()
+                            binding.smartRefresh.autoRefresh()
                         }
                     getArticles()
                 }
@@ -109,6 +112,7 @@ class SystemFragment : Fragment() {
         lifecycleScope.launch {
             systemDataAdapter.loadStateFlow.collect {
                 if (it.refresh !is LoadState.Loading) {
+                    Log.i(TAG,"finishRefresh")
                     binding.smartRefresh.finishRefresh()
                 }
             }

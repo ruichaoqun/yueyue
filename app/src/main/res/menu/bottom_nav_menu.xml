@@ -16,4 +16,8 @@
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_public_no" />
 
+    <item
+        android:id="@+id/navigation_project"
+        android:icon="@drawable/ic_home_project"
+        android:title="@string/title_project" />
 </menu>

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">玥玥</string>
     <string name="title_home">首页</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_public_no">Notifications</string>
+    <string name="title_dashboard">System</string>
+    <string name="title_public_no">PublicNo</string>
+    <string name="title_project">Project</string>
 </resources>

@@ -61,10 +61,9 @@ class HomeFragment : Fragment() {
         }
 
         binding.swipeRefresh.apply {
-            autoRefreshAnimationOnly()
-//            setOnRefreshListener {
-//                homeAdapter.refresh()
-//            }
+            setOnRefreshListener {
+                homeAdapter.refresh()
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

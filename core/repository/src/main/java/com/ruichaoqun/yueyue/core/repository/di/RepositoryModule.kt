@@ -22,5 +22,5 @@ interface RepositoryModule {
     fun bindSystemDataRepository(systemDataRepository: SystemDataRepositoryImpl) : SystemDataRepository
 
     @Binds
-    fun bindMainRepository(projectDataRepositoryImpl: ProjectDataRepositoryImpl) : ProjectDataRepository
+    fun bindProjectDataRepositoryImpl(projectDataRepositoryImpl: ProjectDataRepositoryImpl) : ProjectDataRepository
 }
