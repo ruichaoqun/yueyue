@@ -27,6 +27,8 @@ interface RemoteDataSource {
 
     suspend fun getNavigationList(): NetWorkResponse<List<NavigationBean>>
 
-    suspend fun getProjectList(page: Int): NetWorkResponse<PageBean<ProjectBean>>
+    suspend fun getProject():NetWorkResponse<List<ProjectItemBean>>
+
+    suspend fun getProjectList(page: Int,cid:Int): NetWorkResponse<PageBean<ProjectBean>>
 
 }

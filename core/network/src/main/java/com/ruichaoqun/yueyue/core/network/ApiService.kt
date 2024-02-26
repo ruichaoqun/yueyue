@@ -53,8 +53,14 @@ interface ApiService {
     /**
      * 项目
      */
-    @GET(value = "article/listproject/{page}/json")
-    suspend fun getProjectList(@Path("page") page: Int):NetWorkResponse<PageBean<ProjectBean>>
+    @GET(value = "project/list/{page}/json")
+    suspend fun getProjectList(@Path("page") page: Int,@Query("cid") cid:Int):NetWorkResponse<PageBean<ProjectBean>>
+
+    /**
+     * 项目
+     */
+    @GET(value = "project/tree/json")
+    suspend fun getProject():NetWorkResponse<List<ProjectItemBean>>
 
     /**
      * 登录

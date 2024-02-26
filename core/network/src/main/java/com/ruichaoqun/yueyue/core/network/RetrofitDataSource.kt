@@ -42,6 +42,10 @@ class RetrofitDataSource @Inject constructor(private val networkApi: ApiService)
     override suspend fun getNavigationList(): NetWorkResponse<List<NavigationBean>> =
         networkApi.getNavigationList()
 
-    override suspend fun getProjectList(page: Int): NetWorkResponse<PageBean<ProjectBean>> =
-        networkApi.getProjectList(page)
+    override suspend fun getProject(): NetWorkResponse<List<ProjectItemBean>> =
+        networkApi.getProject()
+
+
+    override suspend fun getProjectList(page: Int,cid:Int): NetWorkResponse<PageBean<ProjectBean>> =
+        networkApi.getProjectList(page,cid)
 }

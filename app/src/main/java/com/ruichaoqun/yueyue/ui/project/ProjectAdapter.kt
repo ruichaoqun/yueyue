@@ -27,7 +27,7 @@ class ProjectAdapter @Inject constructor():PagingDataAdapter<ProjectBean,Project
             holder.mBinding.tvDesc.text = desc
             holder.mBinding.tvDate.text = publishTime.formatDate()
             holder.mBinding.tvAuthor.text = author.ifEmpty { shareUser }
-            holder.mBinding.ivLike.load(envelopePic){
+            holder.mBinding.tvPic.load(envelopePic){
                 placeholder(R.mipmap.default_project_img)
                 error(R.mipmap.default_project_img)
             }
