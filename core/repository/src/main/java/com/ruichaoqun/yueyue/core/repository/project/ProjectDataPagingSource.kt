@@ -21,7 +21,7 @@ class ProjectDataPagingSource constructor(private val projectDataRepository: Pro
             if (data.errorCode != 0) {
                 return LoadResult.Error(Throwable("网络错误"))
             }
-            val nextKey = if (data.data.datas.size >= data.data.pageCount) page.plus(1) else null
+            val nextKey = if (data.data.datas.size >= data.data.size) page.plus(1) else null
             LoadResult.Page(
                 data = data.data.datas,
                 prevKey = null,

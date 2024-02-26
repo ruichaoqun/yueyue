@@ -24,10 +24,11 @@ class MainPagingSource constructor(private val mainRepository: MainRepository) :
             if (data.errorCode != 0) {
                 return LoadResult.Error(Throwable("网络错误"))
             }
+            val nextKey = if (data.data.datas.size >= data.data.size) page.plus(1) else null
             LoadResult.Page(
                 data = data.data.datas,
                 prevKey = null,
-                nextKey =  page.plus(1)
+                nextKey =  nextKey
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

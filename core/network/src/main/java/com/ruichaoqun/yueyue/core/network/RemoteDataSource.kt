@@ -7,6 +7,8 @@ import com.ruichaoqun.yueyue.core.model.HomePageItemBean
 import com.ruichaoqun.yueyue.core.model.NavigationBean
 import com.ruichaoqun.yueyue.core.model.ProjectBean
 import com.ruichaoqun.yueyue.core.model.ProjectItemBean
+import com.ruichaoqun.yueyue.core.model.PublicNo
+import com.ruichaoqun.yueyue.core.model.PublicNoArticleBean
 import com.ruichaoqun.yueyue.core.model.SystemDataBean
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -30,5 +32,10 @@ interface RemoteDataSource {
     suspend fun getProject():NetWorkResponse<List<ProjectItemBean>>
 
     suspend fun getProjectList(page: Int,cid:Int): NetWorkResponse<PageBean<ProjectBean>>
+
+    suspend fun getPublicNo():NetWorkResponse<List<PublicNo>>
+
+    suspend fun getPublicNoArticleList(page:Int,id:Int,key:String ?= null):NetWorkResponse<PageBean<PublicNoArticleBean>>
+
 
 }

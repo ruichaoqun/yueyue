@@ -7,6 +7,8 @@ import com.ruichaoqun.yueyue.core.model.HomePageItemBean
 import com.ruichaoqun.yueyue.core.model.NavigationBean
 import com.ruichaoqun.yueyue.core.model.ProjectBean
 import com.ruichaoqun.yueyue.core.model.ProjectItemBean
+import com.ruichaoqun.yueyue.core.model.PublicNo
+import com.ruichaoqun.yueyue.core.model.PublicNoArticleBean
 import com.ruichaoqun.yueyue.core.model.SystemDataBean
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -61,6 +63,16 @@ interface ApiService {
      */
     @GET(value = "project/tree/json")
     suspend fun getProject():NetWorkResponse<List<ProjectItemBean>>
+
+
+    /**
+     * 公众号
+     */
+    @GET(value = "wxarticle/chapters/json")
+    suspend fun getPublicNo():NetWorkResponse<List<PublicNo>>
+
+    @GET(value = "wxarticle/list/{id}/{page}/json")
+    suspend fun getPublicNoArticleList(@Path("page") page:Int,@Path("id") id:Int,@Query("k") key:String ?= null):NetWorkResponse<PageBean<PublicNoArticleBean>>
 
     /**
      * 登录

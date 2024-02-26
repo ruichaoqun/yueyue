@@ -7,6 +7,8 @@ import com.ruichaoqun.yueyue.core.model.HomePageItemBean
 import com.ruichaoqun.yueyue.core.model.NavigationBean
 import com.ruichaoqun.yueyue.core.model.ProjectBean
 import com.ruichaoqun.yueyue.core.model.ProjectItemBean
+import com.ruichaoqun.yueyue.core.model.PublicNo
+import com.ruichaoqun.yueyue.core.model.PublicNoArticleBean
 import com.ruichaoqun.yueyue.core.model.SystemDataBean
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -48,4 +50,10 @@ class RetrofitDataSource @Inject constructor(private val networkApi: ApiService)
 
     override suspend fun getProjectList(page: Int,cid:Int): NetWorkResponse<PageBean<ProjectBean>> =
         networkApi.getProjectList(page,cid)
+
+    override suspend fun getPublicNo(): NetWorkResponse<List<PublicNo>> =
+        networkApi.getPublicNo()
+
+    override suspend fun getPublicNoArticleList(page: Int, id: Int, key: String?):NetWorkResponse<PageBean<PublicNoArticleBean>> =
+        networkApi.getPublicNoArticleList(page,id,key)
 }

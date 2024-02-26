@@ -4,6 +4,8 @@ import com.ruichaoqun.yueyue.core.repository.main.MainRepository
 import com.ruichaoqun.yueyue.core.repository.main.MainRepositoryImpl
 import com.ruichaoqun.yueyue.core.repository.project.ProjectDataRepository
 import com.ruichaoqun.yueyue.core.repository.project.ProjectDataRepositoryImpl
+import com.ruichaoqun.yueyue.core.repository.publickno.PublicNoRepository
+import com.ruichaoqun.yueyue.core.repository.publickno.PublicNoRepositoryImpl
 import com.ruichaoqun.yueyue.core.repository.systemdata.SystemDataRepository
 import com.ruichaoqun.yueyue.core.repository.systemdata.SystemDataRepositoryImpl
 import dagger.Binds
@@ -22,5 +24,7 @@ interface RepositoryModule {
     fun bindSystemDataRepository(systemDataRepository: SystemDataRepositoryImpl) : SystemDataRepository
 
     @Binds
-    fun bindProjectDataRepositoryImpl(projectDataRepositoryImpl: ProjectDataRepositoryImpl) : ProjectDataRepository
+    fun bindProjectDataRepository(projectDataRepositoryImpl: ProjectDataRepositoryImpl) : ProjectDataRepository
+    @Binds
+    fun bindPublicNoRepository(PublicNoRepositoryImpl: PublicNoRepositoryImpl) : PublicNoRepository
 }
