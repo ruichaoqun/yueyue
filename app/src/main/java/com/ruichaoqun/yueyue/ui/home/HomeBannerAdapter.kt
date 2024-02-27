@@ -1,5 +1,6 @@
 package com.ruichaoqun.yueyue.ui.home
 
+import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.ruichaoqun.yueyue.R
 import com.ruichaoqun.yueyue.core.model.BannerItemBean
+import com.ruichaoqun.yueyue.ui.navigation.NavigationActivity
 import com.youth.banner.adapter.BannerAdapter
 import javax.inject.Inject
 
@@ -30,6 +32,10 @@ class HomeBannerAdapter @Inject constructor(): BannerAdapter<BannerItemBean, Hom
         (holder.itemView as ImageView).load(data.imagePath){
             placeholder(R.drawable.placeholder_banner)
             error(R.drawable.placeholder_banner)
+        }
+        holder.itemView.setOnClickListener {
+            holder.itemView.context.startActivity(Intent(holder.itemView.context,
+                NavigationActivity::class.java))
         }
     }
 }

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Yueyue"
         tools:targetApi="31">
         <activity
+            android:name=".ui.navigation.NavigationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.Web.WebActivity"
             android:exported="false" />
         <activity
