@@ -11,10 +11,16 @@
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="#666666"/>
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="@+id/recycler_view_left"
+        app:dividerColor="@color/color_333"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layout_constraintStart_toEndOf="@+id/recycler_view_left"
+        app:layout_constraintStart_toEndOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

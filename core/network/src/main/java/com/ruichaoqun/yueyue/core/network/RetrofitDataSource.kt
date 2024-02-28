@@ -56,4 +56,17 @@ class RetrofitDataSource @Inject constructor(private val networkApi: ApiService)
 
     override suspend fun getPublicNoArticleList(page: Int, id: Int, key: String?):NetWorkResponse<PageBean<PublicNoArticleBean>> =
         networkApi.getPublicNoArticleList(page,id,key)
+
+    override suspend fun login(username: String, password: String): NetWorkResponse<Any> =
+        networkApi.login(username,password)
+
+    override suspend fun logout(): NetWorkResponse<Any> =
+        networkApi.logout()
+
+    override suspend fun register(
+        username: String,
+        password: String,
+        repassword: String
+    ): NetWorkResponse<Any> =
+        networkApi.register(username, password, repassword)
 }

@@ -31,19 +31,25 @@ interface ApiService {
      * 体系数据
      */
     @GET(value = "tree/json")
-    suspend fun getSystemData():NetWorkResponse<List<SystemDataBean>>
+    suspend fun getSystemData(): NetWorkResponse<List<SystemDataBean>>
 
     /**
      * 知识体系下的文章
      */
     @GET(value = "article/list/{page}/json")
-    suspend fun getArticleList(@Path("page") page: Int,@Query("cid") cid:Int): NetWorkResponse<PageBean<ArticleItemBean>>
+    suspend fun getArticleList(
+        @Path("page") page: Int,
+        @Query("cid") cid: Int
+    ): NetWorkResponse<PageBean<ArticleItemBean>>
 
     /**
      * 作者的文章
      */
     @GET(value = "article/list/{page}/json")
-    suspend fun getArticleListByAuthor(@Path("page") page: Int,@Query("author") author:String): NetWorkResponse<PageBean<ArticleItemBean>>
+    suspend fun getArticleListByAuthor(
+        @Path("page") page: Int,
+        @Query("author") author: String
+    ): NetWorkResponse<PageBean<ArticleItemBean>>
 
 
     /**
@@ -56,29 +62,46 @@ interface ApiService {
      * 项目
      */
     @GET(value = "project/list/{page}/json")
-    suspend fun getProjectList(@Path("page") page: Int,@Query("cid") cid:Int):NetWorkResponse<PageBean<ProjectBean>>
+    suspend fun getProjectList(
+        @Path("page") page: Int,
+        @Query("cid") cid: Int
+    ): NetWorkResponse<PageBean<ProjectBean>>
 
     /**
      * 项目
      */
     @GET(value = "project/tree/json")
-    suspend fun getProject():NetWorkResponse<List<ProjectItemBean>>
+    suspend fun getProject(): NetWorkResponse<List<ProjectItemBean>>
 
 
     /**
      * 公众号
      */
     @GET(value = "wxarticle/chapters/json")
-    suspend fun getPublicNo():NetWorkResponse<List<PublicNo>>
+    suspend fun getPublicNo(): NetWorkResponse<List<PublicNo>>
 
     @GET(value = "wxarticle/list/{id}/{page}/json")
-    suspend fun getPublicNoArticleList(@Path("page") page:Int,@Path("id") id:Int,@Query("k") key:String ?= null):NetWorkResponse<PageBean<PublicNoArticleBean>>
+    suspend fun getPublicNoArticleList(
+        @Path("page") page: Int,
+        @Path("id") id: Int,
+        @Query("k") key: String? = null
+    ): NetWorkResponse<PageBean<PublicNoArticleBean>>
 
     /**
      * 登录
      */
     @POST(value = "user/login")
     @FormUrlEncoded
-    suspend fun login(@Field("username") username: String,@Field("password") password: String): NetWorkResponse<PageBean<ProjectBean>>
+    suspend fun login(
+        @Field("username") username: String,
+        @Field("password") password: String
+    ): NetWorkResponse<Any>
+
+    @GET(value = "user/logout/json")
+    suspend fun logout(): NetWorkResponse<Any>
+
+    @POST(value = "user/register")
+    @FormUrlEncoded
+    suspend fun register(@Field("username") username: String, @Field("password") password: String, @Field("repassword") repassword: String): NetWorkResponse<Any>
 
 }
