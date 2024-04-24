@@ -10,6 +10,8 @@ import com.ruichaoqun.yueyue.core.repository.publickno.PublicNoRepository
 import com.ruichaoqun.yueyue.core.repository.publickno.PublicNoRepositoryImpl
 import com.ruichaoqun.yueyue.core.repository.systemdata.SystemDataRepository
 import com.ruichaoqun.yueyue.core.repository.systemdata.SystemDataRepositoryImpl
+import com.ruichaoqun.yueyue.core.repository.user.UserRepository
+import com.ruichaoqun.yueyue.core.repository.user.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -32,4 +34,7 @@ interface RepositoryModule {
 
     @Binds
     fun bindNavigationRepository(navigationRepositoryImpl: NavigationRepositoryImpl):NavigationRepository
+
+    @Binds
+    fun bindUserRepository(userRepository: UserRepositoryImpl):UserRepository
 }

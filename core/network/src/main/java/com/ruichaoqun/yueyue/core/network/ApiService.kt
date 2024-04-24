@@ -95,13 +95,13 @@ interface ApiService {
     suspend fun login(
         @Field("username") username: String,
         @Field("password") password: String
-    ): NetWorkResponse<Any>
+    ): NetWorkResponse<String>
 
     @GET(value = "user/logout/json")
-    suspend fun logout(): NetWorkResponse<Any>
+    suspend fun logout(): NetWorkResponse<String>
 
     @POST(value = "user/register")
     @FormUrlEncoded
-    suspend fun register(@Field("username") username: String, @Field("password") password: String, @Field("repassword") repassword: String): NetWorkResponse<Any>
+    suspend fun register(@Field("username") username: String, @Field("password") password: String, @Field("repassword") repassword: String): NetWorkResponse<String>
 
 }

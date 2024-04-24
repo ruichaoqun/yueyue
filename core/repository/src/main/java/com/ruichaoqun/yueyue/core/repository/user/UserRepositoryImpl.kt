@@ -2,13 +2,16 @@ package com.ruichaoqun.yueyue.core.repository.user
 
 import com.ruichaoqun.yueyue.core.network.NetWorkResponse
 import com.ruichaoqun.yueyue.core.network.RemoteDataSource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class UserRepositoryImpl constructor(remoteDataSource: RemoteDataSource):UserRepository {
-    override suspend fun login(username: String, password: String): NetWorkResponse<Any> {
+class UserRepositoryImpl @Inject constructor(val remoteDataSource: RemoteDataSource):UserRepository {
+    override suspend fun login(username: String, password: String): NetWorkResponse<String> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun logout(): NetWorkResponse<Any> {
+    override suspend fun logout(): NetWorkResponse<String> {
         TODO("Not yet implemented")
     }
 
@@ -16,7 +19,9 @@ class UserRepositoryImpl constructor(remoteDataSource: RemoteDataSource):UserRep
         username: String,
         password: String,
         repassword: String
-    ): NetWorkResponse<Any> {
-        TODO("Not yet implemented")
-    }
+    ): Flow<NetWorkResponse<String>> =
+        flow {
+            emit(remoteDataSource.register(username,password, repassword))
+        }
+
 }

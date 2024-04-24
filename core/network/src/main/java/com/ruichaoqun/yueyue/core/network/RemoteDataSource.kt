@@ -45,14 +45,14 @@ interface RemoteDataSource {
         key: String? = null
     ): NetWorkResponse<PageBean<PublicNoArticleBean>>
 
-    suspend fun login(username: String, password: String): NetWorkResponse<Any>
+    suspend fun login(username: String, password: String): NetWorkResponse<String>
 
-    suspend fun logout(): NetWorkResponse<Any>
+    suspend fun logout(): NetWorkResponse<String>
 
     suspend fun register(
         username: String,
         password: String,
         repassword: String
-    ): NetWorkResponse<Any>
+    ): NetWorkResponse<String>
 
 }
