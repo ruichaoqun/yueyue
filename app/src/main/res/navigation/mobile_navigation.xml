@@ -28,4 +28,10 @@
         android:name="com.ruichaoqun.yueyue.ui.project.ProjectFragment"
         android:label="@string/title_project"
         tools:layout="@layout/fragment_project" />
+
+    <fragment
+        android:id="@+id/navigation_mine"
+        android:name="com.ruichaoqun.yueyue.ui.mine.MineFragment"
+        android:label="@string/title_mine"
+        tools:layout="@layout/fragment_mine" />
 </navigation>

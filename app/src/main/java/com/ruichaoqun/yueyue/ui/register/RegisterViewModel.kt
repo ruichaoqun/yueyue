@@ -30,14 +30,14 @@ class RegisterViewModel @Inject constructor(val userRepository: UserRepository) 
 
     private val registerEvent: MutableSharedFlow<RegisterEvent> = MutableSharedFlow()
 
-    var registerRequestUiState: Flow<RegisterRequestUiState> =
+    val registerRequestUiState: Flow<RegisterRequestUiState> =
         registerEvent.flatMapConcat { event ->
             userRepository.register(event.username, event.password, event.repassword).asResult()
                 .map { result ->
                     when (result) {
-                        is Result.Error -> RegisterRequestUiState()
-                        Result.Loading -> RegisterRequestUiState()
-                        is Result.Success -> RegisterRequestUiState()
+                        is Result.Error -> RegisterRequestUiState(isLoading = false, errorMsg = result.errorMsg)
+                        Result.Loading -> RegisterRequestUiState(isLoading = true)
+                        is Result.Success -> RegisterRequestUiState(isLoading = false)
                     }
                 }
         }
@@ -61,10 +61,10 @@ class RegisterViewModel @Inject constructor(val userRepository: UserRepository) 
         password.contentEquals(repassword)
 
     private fun isUserNameValid(username: String): Boolean =
-        username.isNotBlank() or (username.length < 6)
+        username.isNotBlank() and (username.length > 6)
 
     private fun isPasswordValid(password: String): Boolean =
-        password.isNotBlank() or (password.length < 6)
+        password.isNotBlank() and (password.length > 6)
 
     fun register(username: String, password: String, repassword: String) {
         viewModelScope.launch {
