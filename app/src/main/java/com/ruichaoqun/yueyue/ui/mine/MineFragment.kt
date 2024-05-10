@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.ruichaoqun.yueyue.R
 import com.ruichaoqun.yueyue.databinding.FragmentMineBinding
 import com.ruichaoqun.yueyue.ui.login.LoginActivity
+import com.ruichaoqun.yueyue.ui.navigation.NavigationActivity
 
 class MineFragment : Fragment() {
 
@@ -31,9 +32,14 @@ class MineFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding.ivUser.setOnClickListener {
-            navigationLogin()
+        mBinding.apply {
+            ivUser.setOnClickListener { navigationLogin() }
+            tvNavigation.setOnClickListener { navigationNavigation() }
         }
+    }
+
+    private fun navigationNavigation() {
+        startActivity(Intent(requireActivity(),NavigationActivity::class.java))
     }
 
     private fun navigationLogin() {

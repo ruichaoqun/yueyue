@@ -37,7 +37,10 @@ class RegisterViewModel @Inject constructor(val userRepository: UserRepository) 
                     when (result) {
                         is Result.Error -> RegisterRequestUiState(isLoading = false, errorMsg = result.errorMsg)
                         Result.Loading -> RegisterRequestUiState(isLoading = true)
-                        is Result.Success -> RegisterRequestUiState(isLoading = false)
+                        is Result.Success -> {
+                            userRepository.saveUserInfo(result.data)
+                            RegisterRequestUiState(isLoading = false)
+                        }
                     }
                 }
         }
@@ -78,7 +81,6 @@ data class RegisterUiState(
     val passWordError: Int? = null,
     val rePassWordError: Int? = null,
     val isDataValid: Boolean = false,
-
     )
 
 data class RegisterRequestUiState(

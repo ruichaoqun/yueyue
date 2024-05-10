@@ -10,6 +10,7 @@ import com.ruichaoqun.yueyue.core.model.ProjectItemBean
 import com.ruichaoqun.yueyue.core.model.PublicNo
 import com.ruichaoqun.yueyue.core.model.PublicNoArticleBean
 import com.ruichaoqun.yueyue.core.model.SystemDataBean
+import com.ruichaoqun.yueyue.core.model.UserBean
 import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -53,6 +54,6 @@ interface RemoteDataSource {
         username: String,
         password: String,
         repassword: String
-    ): NetWorkResponse<String>
+    ): NetWorkResponse<UserBean>
 
 }

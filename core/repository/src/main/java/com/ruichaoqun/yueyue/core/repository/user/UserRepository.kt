@@ -1,5 +1,6 @@
 package com.ruichaoqun.yueyue.core.repository.user
 
+import com.ruichaoqun.yueyue.core.model.UserBean
 import com.ruichaoqun.yueyue.core.network.NetWorkResponse
 import kotlinx.coroutines.flow.Flow
 
@@ -12,5 +13,9 @@ interface UserRepository {
         username: String,
         password: String,
         repassword: String
-    ): Flow<NetWorkResponse<String>>
+    ): Flow<NetWorkResponse<UserBean>>
+
+    fun getUserInfo():Flow<UserBean>
+
+    suspend fun saveUserInfo(userInfo:UserBean)
 }

@@ -10,6 +10,7 @@ import com.ruichaoqun.yueyue.core.model.ProjectItemBean
 import com.ruichaoqun.yueyue.core.model.PublicNo
 import com.ruichaoqun.yueyue.core.model.PublicNoArticleBean
 import com.ruichaoqun.yueyue.core.model.SystemDataBean
+import com.ruichaoqun.yueyue.core.model.UserBean
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -102,6 +103,6 @@ interface ApiService {
 
     @POST(value = "user/register")
     @FormUrlEncoded
-    suspend fun register(@Field("username") username: String, @Field("password") password: String, @Field("repassword") repassword: String): NetWorkResponse<String>
+    suspend fun register(@Field("username") username: String, @Field("password") password: String, @Field("repassword") repassword: String): NetWorkResponse<UserBean>
 
 }

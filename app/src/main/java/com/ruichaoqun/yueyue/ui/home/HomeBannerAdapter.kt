@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.ruichaoqun.yueyue.R
 import com.ruichaoqun.yueyue.core.model.BannerItemBean
+import com.ruichaoqun.yueyue.ui.Web.WebActivity
 import com.ruichaoqun.yueyue.ui.navigation.NavigationActivity
 import com.youth.banner.adapter.BannerAdapter
 import javax.inject.Inject
@@ -34,8 +35,7 @@ class HomeBannerAdapter @Inject constructor(): BannerAdapter<BannerItemBean, Hom
             error(R.drawable.placeholder_banner)
         }
         holder.itemView.setOnClickListener {
-            holder.itemView.context.startActivity(Intent(holder.itemView.context,
-                NavigationActivity::class.java))
+            WebActivity.startWebActivity(holder.itemView.context,data.url)
         }
     }
 }

@@ -10,6 +10,7 @@ import com.ruichaoqun.yueyue.core.model.ProjectItemBean
 import com.ruichaoqun.yueyue.core.model.PublicNo
 import com.ruichaoqun.yueyue.core.model.PublicNoArticleBean
 import com.ruichaoqun.yueyue.core.model.SystemDataBean
+import com.ruichaoqun.yueyue.core.model.UserBean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -67,6 +68,6 @@ class RetrofitDataSource @Inject constructor(private val networkApi: ApiService)
         username: String,
         password: String,
         repassword: String
-    ): NetWorkResponse<String> =
+    ): NetWorkResponse<UserBean> =
         networkApi.register(username, password, repassword)
 }

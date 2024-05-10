@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
     fun getUserInfo():Flow<UserBean>
+
+    suspend fun saveUserInfo(userInfo:UserBean)
 }

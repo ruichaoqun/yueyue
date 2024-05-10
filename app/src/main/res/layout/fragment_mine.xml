@@ -8,7 +8,7 @@
     android:orientation="vertical">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="300dp">
         <ImageView
             android:id="@+id/iv_user"
             android:layout_width="60dp"
@@ -18,7 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="100dp"/>
         <TextView
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
